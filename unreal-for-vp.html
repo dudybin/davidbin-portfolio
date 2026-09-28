@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 <header class="topbar">
@@ -51,27 +51,33 @@
     <h1 class="page__title">VIRTUAL PRODUCTION</h1>
     <ul class="grid" style="--tile-w:533px;--tile-h:300px;--col-gap:20px;--row-gap:90px;--cols:3">
       <li class="tile">
-        <video src="assets/pages/vp1.mp4" autoplay loop muted playsinline preload="metadata"></video>
+        <button class="tile__open" type="button" data-media="assets/pages/vp1.mp4"
+          aria-label="Play Dynamic Graphs Blue Print"><video src="assets/pages/vp1.mp4" autoplay loop muted playsinline preload="metadata"></video></button>
         <p class="tile__cap">Dynamic Graphs Blue Print</p>
       </li>
       <li class="tile">
-        <video src="assets/pages/vp2.mp4" autoplay loop muted playsinline preload="metadata"></video>
+        <button class="tile__open" type="button" data-media="assets/pages/vp2.mp4"
+          aria-label="Play Aximmtery\Unreal"><video src="assets/pages/vp2.mp4" autoplay loop muted playsinline preload="metadata"></video></button>
         <p class="tile__cap">Aximmtery\Unreal</p>
       </li>
       <li class="tile">
-        <video src="assets/pages/vp3.mp4" autoplay loop muted playsinline preload="metadata"></video>
+        <button class="tile__open" type="button" data-media="assets/pages/vp3.mp4"
+          aria-label="Play Multi-Virtual cameras output for VP"><video src="assets/pages/vp3.mp4" autoplay loop muted playsinline preload="metadata"></video></button>
         <p class="tile__cap">Multi-Virtual cameras output for VP</p>
       </li>
       <li class="tile">
-        <img src="assets/pages/vp5.jpg" alt="Pilot ONE" loading="lazy">
+        <button class="tile__open" type="button" data-youtube="wePkh3OXigs"
+          aria-label="Play Pilot ONE"><img src="assets/pages/vp5.jpg" alt="Pilot ONE" loading="lazy"><span class="tile__play" aria-hidden="true"></span></button>
         <p class="tile__cap">Pilot ONE</p>
       </li>
       <li class="tile">
-        <video src="assets/pages/vp4.mp4" autoplay loop muted playsinline preload="metadata"></video>
+        <button class="tile__open" type="button" data-media="assets/pages/vp4.mp4"
+          aria-label="Play Shooting day"><video src="assets/pages/vp4.mp4" autoplay loop muted playsinline preload="metadata"></video></button>
         <p class="tile__cap">Shooting day</p>
       </li>
       <li class="tile">
-        <img src="assets/pages/vp6.jpg" alt="Amdocs session CEO" loading="lazy">
+        <button class="tile__open" type="button" data-youtube="3mklm2gUIHE"
+          aria-label="Play Amdocs session CEO"><img src="assets/pages/vp6.jpg" alt="Amdocs session CEO" loading="lazy"><span class="tile__play" aria-hidden="true"></span></button>
         <p class="tile__cap">Amdocs session CEO</p>
       </li>
     </ul>
@@ -106,6 +112,6 @@
   <p class="copyright">2020 by David Bin.</p>
 </footer>
 
-<script src="site.js?v=5"></script>
+<script src="site.js?v=6"></script>
 </body>
 </html>

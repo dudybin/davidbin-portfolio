@@ -6,7 +6,7 @@ HERE = pathlib.Path(__file__).parent
 MENU = (HERE / "_menu.html").read_text()
 FOOTER = (HERE / "_footer.html").read_text()
 
-ASSET_VER = "5"   # bump when style.css or site.js change, to beat caches
+ASSET_VER = "6"   # bump when style.css or site.js change, to beat caches
 
 FONTS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
@@ -218,17 +218,17 @@ GALLERIES = [
         cols=3, tile=(403, 227), gap=(20, 90),
         # each tile opens its Vimeo video in a lightbox, as the original does
         items=[
-            ("assets/pages/pp1.jpg", "Amdocs APS Community", "28478897"),
-            ("assets/pages/pp2.jpg", "Amdocs CES9 Launch", "20839390"),
-            ("assets/pages/pp3.jpg", "Amdocs Cloud Services", "41475388"),
-            ("assets/pages/pp4.jpg", "Amdocs Prepaid Solutions", "41490826"),
-            ("assets/pages/pp-png.jpg", "Hagag Salame", "482241338"),
-            ("assets/pages/pp5.jpg", "Lilien 8", "479600777"),
-            ("assets/pages/pp6.jpg", "Nature-Valley", "76411105"),
-            ("assets/pages/pp7.jpg", "Netivei Israel", "182375656"),
-            ("assets/pages/pp8.jpg", "Opel MOKKA", "95156760"),
-            ("assets/pages/pp9.jpg", "Pop Star", "482240633"),
-            ("assets/pages/pp10.jpg", "Reshet 13", "479737472"),
+            ("assets/pages/pp1.jpg", "Amdocs APS Community", "vm:28478897"),
+            ("assets/pages/pp2.jpg", "Amdocs CES9 Launch", "vm:20839390"),
+            ("assets/pages/pp3.jpg", "Amdocs Cloud Services", "vm:41475388"),
+            ("assets/pages/pp4.jpg", "Amdocs Prepaid Solutions", "vm:41490826"),
+            ("assets/pages/pp-png.jpg", "Hagag Salame", "vm:482241338"),
+            ("assets/pages/pp5.jpg", "Lilien 8", "vm:479600777"),
+            ("assets/pages/pp6.jpg", "Nature-Valley", "vm:76411105"),
+            ("assets/pages/pp7.jpg", "Netivei Israel", "vm:182375656"),
+            ("assets/pages/pp8.jpg", "Opel MOKKA", "vm:95156760"),
+            ("assets/pages/pp9.jpg", "Pop Star", "vm:482240633"),
+            ("assets/pages/pp10.jpg", "Reshet 13", "vm:479737472"),
         ],
     ),
     dict(
@@ -237,13 +237,14 @@ GALLERIES = [
         h1="UNITY",
         desc="Realtime work in Unity by David Bin.",
         cols=3, tile=(533, 300), gap=(20, 90),
+        # every Unity tile opens a YouTube video
         items=[
-            ("assets/pages/un1.jpg", "Reel AR", None),
-            ("assets/pages/un2.jpg", "Butterflies AR", None),
-            ("assets/pages/un3.jpg", "Drone AR flight", None),
-            ("assets/pages/un4.jpg", "States machine", None),
-            ("assets/pages/un5.jpg", "Walmart AR", None),
-            ("assets/pages/un6.jpg", "Game Platform", None),
+            ("assets/pages/un1.jpg", "Reel AR", "yt:1E8qq7zrl3g"),
+            ("assets/pages/un2.jpg", "Butterflies AR", "yt:hu5f1qUypMU"),
+            ("assets/pages/un3.jpg", "Drone AR flight", "yt:kCsdNVtXLe8"),
+            ("assets/pages/un4.jpg", "States machine", "yt:JzNqLDqmxFU"),
+            ("assets/pages/un5.jpg", "Walmart AR", "yt:jwTDw3qDkQ4"),
+            ("assets/pages/un6.jpg", "Game Platform", "yt:LI9PAQDbXns"),
         ],
     ),
     dict(
@@ -252,13 +253,14 @@ GALLERIES = [
         h1="VIRTUAL PRODUCTION",
         desc="Virtual production work in Unreal by David Bin.",
         cols=3, tile=(533, 300), gap=(20, 90),
+        # two tiles hold YouTube videos; the rest enlarge their animation
         items=[
-            ("assets/pages/vp1.mp4", "Dynamic Graphs Blue Print", None),
-            ("assets/pages/vp2.mp4", "Aximmtery\\Unreal", None),
-            ("assets/pages/vp3.mp4", "Multi-Virtual cameras output for VP", None),
-            ("assets/pages/vp5.jpg", "Pilot ONE", None),
-            ("assets/pages/vp4.mp4", "Shooting day", None),
-            ("assets/pages/vp6.jpg", "Amdocs session CEO", None),
+            ("assets/pages/vp1.mp4", "Dynamic Graphs Blue Print", "media"),
+            ("assets/pages/vp2.mp4", "Aximmtery\\Unreal", "media"),
+            ("assets/pages/vp3.mp4", "Multi-Virtual cameras output for VP", "media"),
+            ("assets/pages/vp5.jpg", "Pilot ONE", "yt:wePkh3OXigs"),
+            ("assets/pages/vp4.mp4", "Shooting day", "media"),
+            ("assets/pages/vp6.jpg", "Amdocs session CEO", "yt:3mklm2gUIHE"),
         ],
     ),
 ]
@@ -266,16 +268,24 @@ GALLERIES = [
 
 def build_gallery(g):
     tiles = []
-    for src, caption, vimeo in g["items"]:
+    for src, caption, kind in g["items"]:
         if src.endswith(".mp4"):
             media = (f'<video src="{src}" autoplay loop muted playsinline '
                      f'preload="metadata"></video>')
         else:
             media = f'<img src="{src}" alt="{caption}" loading="lazy">'
-        if vimeo:
-            media = (f'<button class="tile__open" type="button" data-vimeo="{vimeo}"\n'
-                     f'          aria-label="Play {caption}">{media}'
-                     f'<span class="tile__play" aria-hidden="true"></span></button>')
+        if kind:
+            if kind.startswith("vm:"):
+                attr = f'data-vimeo="{kind[3:]}"'
+                play = '<span class="tile__play" aria-hidden="true"></span>'
+            elif kind.startswith("yt:"):
+                attr = f'data-youtube="{kind[3:]}"'
+                play = '<span class="tile__play" aria-hidden="true"></span>'
+            else:
+                attr = f'data-media="{src}"'
+                play = ''
+            media = (f'<button class="tile__open" type="button" {attr}\n'
+                     f'          aria-label="Play {caption}">{media}{play}</button>')
         tiles.append(
             f'      <li class="tile">\n'
             f'        {media}\n'

@@ -55,11 +55,26 @@
     };
     [].forEach.call(document.querySelectorAll('.tile__open'), function (btn) {
       btn.addEventListener('click', function () {
-        var id = btn.getAttribute('data-vimeo');
-        frame.innerHTML = '<iframe src="https://player.vimeo.com/video/' + id +
-          '?title=0&byline=0&portrait=0&autoplay=1" allow="autoplay; fullscreen; ' +
-          'picture-in-picture" allowfullscreen title="' +
-          (btn.getAttribute('aria-label') || 'Video') + '"></iframe>';
+        var label = btn.getAttribute('aria-label') || 'Video';
+        var vimeo = btn.getAttribute('data-vimeo');
+        var yt = btn.getAttribute('data-youtube');
+        var media = btn.getAttribute('data-media');
+        var html;
+        if (vimeo) {
+          html = '<iframe src="https://player.vimeo.com/video/' + vimeo +
+            '?title=0&byline=0&portrait=0&autoplay=1" allow="autoplay; fullscreen; ' +
+            'picture-in-picture" allowfullscreen title="' + label + '"></iframe>';
+        } else if (yt) {
+          html = '<iframe src="https://www.youtube.com/embed/' + yt +
+            '?autoplay=1&rel=0&modestbranding=1" allow="autoplay; fullscreen; ' +
+            'picture-in-picture" allowfullscreen title="' + label + '"></iframe>';
+        } else if (media && /\.mp4$/.test(media)) {
+          html = '<video src="' + media + '" controls autoplay loop playsinline></video>';
+        } else if (media) {
+          html = '<img src="' + media + '" alt="' + label + '">';
+        }
+        if (!html) return;
+        frame.innerHTML = html;
         lightbox.classList.add('open');
         lightbox.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
