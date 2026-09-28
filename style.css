@@ -6,7 +6,7 @@
   --footer-bg:#eeeeee;
   --muted:#5a5a5a;
   --nav-h:75px;
-  --bar:#2f2e2e;
+  --bar:#000;
   --gutter:86px;
   /* the original places every title 344px below its section top; the hero
      section includes the 75px bar, so its image-relative offset is 75 less */
@@ -777,10 +777,10 @@ footer{
     max-width:none;
   }
   .kicker{
-    font-size:7.2vw;          /* 23/320 */
-    line-height:8.6vw;
-    letter-spacing:.02em;
-    margin:0 0 3.3vw;
+    font-size:8.13vw;         /* 23/320, sized up for the substitute face */
+    line-height:9.75vw;
+    letter-spacing:.05em;
+    margin:0 0 1.6vw;
   }
   .sub{
     font-size:5.3vw;          /* 17/320 */
