@@ -6,6 +6,8 @@ HERE = pathlib.Path(__file__).parent
 MENU = (HERE / "_menu.html").read_text()
 FOOTER = (HERE / "_footer.html").read_text()
 
+ASSET_VER = "5"   # bump when style.css or site.js change, to beat caches
+
 FONTS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
     '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
@@ -26,13 +28,13 @@ def shell(title, body, desc):
 <meta property="og:description" content="{desc}">
 <meta property="og:type" content="website">
 {FONTS}
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v={ASSET_VER}">
 </head>
 <body>
 {MENU}
 {body}
 {FOOTER}
-<script src="site.js"></script>
+<script src="site.js?v={ASSET_VER}"></script>
 </body>
 </html>
 """
