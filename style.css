@@ -747,11 +747,14 @@ footer{
   }
   .mark{font-size:4.7vw;min-font-size:15px}
   .burger{
-    top:calc(3.6vw + env(safe-area-inset-top));
+    /* centred against the bar rather than sat at a fixed offset, so it
+       lines up with the DB wordmark */
+    top:calc(env(safe-area-inset-top) + (max(15.6vw,54px) - max(11vw,38px)) / 2);
     right:max(5.6vw,env(safe-area-inset-right));
     width:11vw;height:11vw;
     min-width:38px;min-height:38px;
     gap:1.5vw;
+    align-items:flex-end;
   }
   .burger span:nth-child(1),.burger span:nth-child(3){width:8.4vw;min-width:28px}
   .burger span:nth-child(2){width:5.6vw;min-width:19px;margin-left:2.8vw}
