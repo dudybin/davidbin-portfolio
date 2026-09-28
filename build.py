@@ -81,52 +81,62 @@ def build_index():
 PROJECTS = [
     dict(
         file="showreel.html",
+        template="reel",                       # full-bleed page background
         title="REEL | David Bin",
-        h1="Reel 2020",
+        h1="REEL 2020",
         lead="",
         credits="",
         vimeo="479598104",
         poster="assets/poster-showreel.jpg",
+        bg="assets/bg-showreel.jpg",
         desc="Show Reel 2020 by David Bin.",
     ),
     dict(
         file="walmart-ar.html",
+        template="hero",                       # 489px hero, then a black page
         title="Walmart AR | David Bin",
         h1="Walmart Sam's Club AR",
         lead="An app for kids to take photos and experience Augmented 3d animations.",
         credits="Technical Artist | Texture baking | Animations | Optimization",
         local="assets/walmart-ar.mp4",
         poster="assets/walmart-poster.jpg",
+        bg="assets/bg-walmart.jpg",
         desc="Walmart Sam's Club AR — an app for kids to take photos and experience augmented 3D animations.",
     ),
     dict(
         file="aps-support.html",
+        template="hero",
         title="Amdocs APS Support Community | David Bin",
         h1="Amdocs APS Support Community",
         lead="",
         credits="Art Direction | Animation | Rendering | Compositing",
         vimeo="28478897",
         poster="assets/poster-aps.jpg",
+        bg="assets/bg-aps.jpg",
         desc="Amdocs APS Support Community — promotion teaser.",
     ),
     dict(
         file="architecture.html",
+        template="hero",
         title="Architecture | David Bin",
         h1="Architecture Projects",
-        lead="",
+        lead="Some of my Architecture 3D design frames and renders.",
         credits="Art Direction | Compositing | Animation | Rendering",
         vimeo="479600777",
         poster="assets/poster-architecture.jpg",
+        bg="assets/bg-architecture.jpg",
         desc="Architecture visualization design.",
     ),
     dict(
         file="cloud-services.html",
+        template="hero",
         title="Amdocs Cloud Services | David Bin",
         h1="Amdocs Cloud Services",
         lead="A short teaser for Amdocs Cloud Services.",
         credits="Art Direction | Animation | Rendering | Compositing",
         vimeo="41475388",
         poster="assets/poster-cloud.jpg",
+        bg="assets/bg-cloud.jpg",
         desc="A short teaser for Amdocs Cloud Services, made for MWC.",
     ),
 ]
@@ -136,8 +146,7 @@ def build_project(p):
     if "vimeo" in p:
         vid = p["vimeo"]
         # Facade: the poster loads instantly and the Vimeo iframe is only
-        # inserted on click. If the embed is blocked (sandboxed preview, a
-        # network that filters player.vimeo.com), the link below still works.
+        # inserted on click, so a blocked embed degrades to the link below.
         player = (
             f'    <button class="facade" type="button" data-vimeo="{vid}"\n'
             f'      style="background-image:url(\'{p["poster"]}\')"\n'
@@ -146,8 +155,8 @@ def build_project(p):
             f'    </button>'
         )
         watch = (
-            f'  <p class="watch"><a href="https://vimeo.com/{vid}" target="_blank"\n'
-            f'    rel="noopener">Watch on Vimeo &#8599;</a></p>\n'
+            f'    <p class="watch"><a href="https://vimeo.com/{vid}" target="_blank"\n'
+            f'      rel="noopener">Watch on Vimeo &#8599;</a></p>\n'
         )
     else:
         player = (
@@ -158,16 +167,31 @@ def build_project(p):
         )
         watch = ""
 
-    lead = f'  <p class="lead">{p["lead"]}</p>\n' if p["lead"] else ""
-    credits = f'  <p class="credits">{p["credits"]}</p>\n' if p["credits"] else ""
-
-    body = f"""<main class="project">
-  <h1>{p["h1"]}</h1>
-{lead}{credits}  <div class="player">
+    stage = f"""  <div class="stage">
+    <div class="player">
 {player}
+    </div>
+{watch}    <a class="back" href="index.html">Back</a>
+  </div>"""
+
+    if p["template"] == "reel":
+        body = f"""<main class="proj proj--reel" style="background-image:url('{p["bg"]}')">
+  <div class="stage">
+    <h1 class="proj__big">{p["h1"]}</h1>
   </div>
-{watch}  <a class="back" href="index.html">Back</a>
+{stage}
 </main>"""
+    else:
+        lead = f'    <p class="proj__lead">{p["lead"]}</p>\n' if p["lead"] else ""
+        credits = f'    <p class="proj__credits">{p["credits"]}</p>\n' if p["credits"] else ""
+        body = f"""<main class="proj proj--hero">
+  <div class="proj__banner" style="background-image:url('{p["bg"]}')"></div>
+  <div class="stage">
+    <h1 class="proj__title">{p["h1"]}</h1>
+{lead}{credits}  </div>
+{stage}
+</main>"""
+
     return shell(p["title"], body, p["desc"])
 
 

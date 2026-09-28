@@ -175,46 +175,78 @@ a{color:inherit;text-decoration:none}
 .panel--light .btn{border-color:#000;color:var(--ink)}
 .panel--light .btn:hover,.panel--light .btn:focus-visible{background:var(--ink);color:#fff;border-color:var(--ink)}
 
-/* ---------- project page ---------- */
+/* ---------- project pages ---------- */
+/* Measured off the original at 1440px: content column 940px centred, hero
+   banner 489px, title 28px/light, body 15px, Back 148x38. The reel page uses
+   its own template: one full-bleed background behind a 60px light title. */
 
-.project{
+.proj{
   background:#000;
   color:#fff;
-  padding:56px var(--gutter) 72px;
-  min-height:70vh;
-}
-.project h1{
-  font-family:Poppins,"Helvetica Neue",Arial,sans-serif;
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:-.01em;
-  font-size:38px;
-  margin:0 0 16px;
-}
-.project .lead{
   font-weight:300;
-  font-size:clamp(15px,1.5vw,19px);
-  line-height:1.6;
-  margin:0 0 6px;
-  color:rgba(255,255,255,.9);
-  max-width:60ch;
 }
-.project .credits{
+
+.stage{
+  width:940px;
+  max-width:calc(100% - 2 * var(--gutter));
+  margin:0 auto;
+}
+
+/* --- shared blocks --- */
+
+.proj__banner{
+  height:489px;
+  background-size:cover;
+  background-position:center;
+}
+
+.proj__title{
+  font-family:Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight:300;
-  font-size:14px;
-  letter-spacing:.02em;
-  color:rgba(255,255,255,.55);
-  margin:0 0 34px;
+  font-size:28px;
+  line-height:35px;
+  letter-spacing:normal;
+  color:#fff;
+  margin:71px 0 0 10px;
 }
+
+.proj__lead,.proj__credits{
+  font-size:15px;
+  line-height:21px;
+  letter-spacing:.15px;
+  color:#e6e6e6;
+  margin:35px 0 0 10px;
+  max-width:46ch;
+}
+.proj__credits{margin-top:38px;max-width:none}
+
+/* --- the reel page --- */
+
+.proj--reel{
+  background-size:cover;
+  background-position:center;
+  padding-bottom:1px;
+}
+.proj__big{
+  font-family:Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:300;
+  font-size:60px;
+  line-height:74px;
+  color:#f2f2f2;
+  margin:53px 0 0;
+}
+
+/* --- video --- */
 
 .player{
   position:relative;
   width:100%;
-  max-width:1280px;
-  aspect-ratio:16/9;
+  aspect-ratio:940 / 529;
   background:#0a0a0a;
-  margin:0 0 42px;
+  margin:64px 0 0;
 }
+.proj--reel .player{margin-top:21px}
+
 .player iframe,.player video{
   position:absolute;inset:0;
   width:100%;height:100%;
@@ -222,7 +254,6 @@ a{color:inherit;text-decoration:none}
   object-fit:cover;
 }
 
-/* click-to-load video poster */
 .facade{
   position:absolute;inset:0;
   width:100%;height:100%;
@@ -258,26 +289,35 @@ a{color:inherit;text-decoration:none}
   transform:scale(1.08);background:rgba(0,0,0,.65);
 }
 
-.watch{margin:-24px 0 34px}
+/* the one intentional addition: a way out when the embed is blocked */
+.watch{margin:8px 0 0;text-align:center}
 .watch a{
-  font-size:14px;
-  letter-spacing:.03em;
-  color:rgba(255,255,255,.62);
-  border-bottom:1px solid rgba(255,255,255,.28);
+  font-size:13px;
+  color:rgba(255,255,255,.55);
+  border-bottom:1px solid rgba(255,255,255,.25);
   padding-bottom:2px;
   transition:color .2s ease,border-color .2s ease;
 }
 .watch a:hover,.watch a:focus-visible{color:#fff;border-color:#fff}
 
+.watch + .back{margin-top:10px}
+
 .back{
-  display:inline-block;
-  padding:11px 34px;
-  border:1px solid rgba(255,255,255,.8);
-  font-size:13px;
-  letter-spacing:.06em;
+  display:grid;
+  place-items:center;
+  width:148px;
+  height:38px;
+  margin:56px auto 0;
+  background:#000;
+  border:1px solid #fff;
+  color:#fff;
+  font-size:15px;
+  font-weight:700;
   transition:background .22s ease,color .22s ease;
 }
 .back:hover,.back:focus-visible{background:#fff;color:#000}
+
+.proj .stage:last-of-type{padding-bottom:44px}
 
 /* ---------- footer ---------- */
 
