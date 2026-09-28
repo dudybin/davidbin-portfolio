@@ -8,7 +8,7 @@ HERE = pathlib.Path(__file__).parent
 MENU = (HERE / "_menu.html").read_text()
 FOOTER = (HERE / "_footer.html").read_text()
 
-ASSET_VER = "35"   # bump when style.css or site.js change, to beat caches
+ASSET_VER = "36"   # bump when style.css or site.js change, to beat caches
 
 FONTS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
@@ -358,7 +358,7 @@ ABOUT = """<main class="about-page">
     <p class="about-page__text">I work with 2D and 3D software's for Realtime engines
     like Unity and Unreal to produce emissive content or interactive experience.</p>
     <a class="about-page__cv"
-       href="assets/pages/David_Bin_CV_Technical_Artist.pdf"
+       href="assets/pages/David_Bin_CV_Technical_Artist.pdf?v={ASSET_VER}"
        download="David_Bin_CV_Technical_Artist.pdf">Download CV</a>
   </div>
 </main>"""
