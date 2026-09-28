@@ -55,6 +55,8 @@ def build_index():
     sections = []
     for pid, href, img, kicker, sub, light, cta in PANELS:
         cls = "panel panel--light" if light else "panel"
+        if pid == PANELS[0][0]:
+            cls += " panel--hero"
         sections.append(f"""<section class="{cls}" id="{pid}">
   <div class="panel__bg" style="background-image:url('{img}')"></div>
   <div class="panel__copy">
