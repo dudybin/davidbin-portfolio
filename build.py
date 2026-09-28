@@ -9,7 +9,7 @@ FOOTER = (HERE / "_footer.html").read_text()
 FONTS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
     '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
-    '<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&'
+    '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&'
     'family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">'
 )
 
@@ -53,12 +53,11 @@ def build_index():
         f'    <li><a href="#{p[0]}" aria-label="{p[3]}"></a></li>' for p in PANELS
     )
     sections = []
-    for i, (pid, href, img, kicker, sub, light, cta) in enumerate(PANELS):
+    for pid, href, img, kicker, sub, light, cta in PANELS:
         cls = "panel panel--light" if light else "panel"
-        brand = '  <p class="wordmark">David Bin</p>\n' if i == 0 else ""
         sections.append(f"""<section class="{cls}" id="{pid}">
   <div class="panel__bg" style="background-image:url('{img}')"></div>
-{brand}  <div class="panel__copy">
+  <div class="panel__copy">
     <h2 class="kicker">{kicker}</h2>
     <p class="sub">{sub}</p>
     <a class="btn" href="{href}">{cta}</a>

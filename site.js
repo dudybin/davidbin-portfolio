@@ -1,7 +1,6 @@
 (function () {
   var burger = document.getElementById('burger');
   var menu = document.getElementById('menu');
-  var bar = document.querySelector('.topbar');
 
   if (burger && menu) {
     burger.addEventListener('click', function () {
@@ -19,12 +18,6 @@
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && menu.classList.contains('open')) burger.click();
     });
-  }
-
-  if (bar) {
-    var solid = function () { bar.classList.toggle('solid', window.scrollY > 40); };
-    solid();
-    window.addEventListener('scroll', solid, { passive: true });
   }
 
   // Click-to-load Vimeo: keeps the page light and means a blocked embed
