@@ -37,13 +37,13 @@ a{color:inherit;text-decoration:none}
   align-items:center;
   justify-content:space-between;
   z-index:60;
-  padding:0 var(--gutter);
+  padding:0 92px;
   background:var(--bar);
 }
 
 .mark{
   font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-weight:700;
+  font-weight:400;
   font-size:18px;
   letter-spacing:1.8px;
   color:#fff;
@@ -148,16 +148,16 @@ a{color:inherit;text-decoration:none}
   letter-spacing:.05em;
   line-height:48px;
   margin:0 0 14px;
-  color:#fff;
+  color:var(--t,#fff);
 }
 .sub{
   font-weight:400;
   font-size:22px;
   line-height:26px;
   margin:0 0 22px;
-  color:#fff;
+  color:var(--s,#fff);
 }
-.panel--light .kicker,.panel--light .sub{color:var(--ink)}
+
 
 .btn{
   display:grid;
@@ -223,10 +223,18 @@ a{color:inherit;text-decoration:none}
 /* --- the reel page --- */
 
 .proj--reel{
-  background-size:cover;
-  background-position:center;
+  position:relative;
+  background:#000;
   padding-bottom:1px;
 }
+.proj__wash{
+  position:absolute;inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:.2;
+  pointer-events:none;
+}
+.proj--reel .stage{position:relative;z-index:1}
 .proj__big{
   font-family:Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
   font-weight:300;
@@ -246,6 +254,7 @@ a{color:inherit;text-decoration:none}
   margin:64px 0 0;
 }
 .proj--reel .player{margin-top:21px}
+.proj--reel .back{margin-top:36px}
 
 .player iframe,.player video{
   position:absolute;inset:0;
@@ -289,19 +298,6 @@ a{color:inherit;text-decoration:none}
   transform:scale(1.08);background:rgba(0,0,0,.65);
 }
 
-/* the one intentional addition: a way out when the embed is blocked */
-.watch{margin:8px 0 0;text-align:center}
-.watch a{
-  font-size:13px;
-  color:rgba(255,255,255,.55);
-  border-bottom:1px solid rgba(255,255,255,.25);
-  padding-bottom:2px;
-  transition:color .2s ease,border-color .2s ease;
-}
-.watch a:hover,.watch a:focus-visible{color:#fff;border-color:#fff}
-
-.watch + .back{margin-top:10px}
-
 .back{
   display:grid;
   place-items:center;
@@ -312,6 +308,7 @@ a{color:inherit;text-decoration:none}
   border:1px solid #fff;
   color:#fff;
   font-size:15px;
+  line-height:21px;
   font-weight:700;
   transition:background .22s ease,color .22s ease;
 }
@@ -320,44 +317,67 @@ a{color:inherit;text-decoration:none}
 .proj .stage:last-of-type{padding-bottom:44px}
 
 /* ---------- footer ---------- */
+/* Measured: white, 306px tall, columns starting at x=89 / 486 / 960,
+   60px of padding above the first row. */
 
 footer{
-  background:var(--footer-bg);
-  color:var(--ink);
-  padding:56px var(--gutter) 40px;
+  background:#fff;
+  color:#000;
+  padding:54px 0 96px 89px;
+  font-family:Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 .foot-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:34px;
-  max-width:1200px;
+  grid-template-columns:397px 474px 1fr;
 }
-.foot-grid p{margin:0 0 8px;font-weight:300;line-height:1.6;font-size:15px}
-.foot-grid h2{
-  font-size:14px;
+.foot-grid > div:first-child p{
+  margin:0;
+  font-size:18px;
   font-weight:700;
-  letter-spacing:.09em;
-  text-transform:uppercase;
-  margin:0 0 12px;
+  line-height:23.4px;
+  color:#605e5e;
+  max-width:273px;
+}
+.foot-grid h2{
+  margin:0 0 9px;
+  font-size:18px;
+  font-weight:700;
+  line-height:25.2px;
+  letter-spacing:normal;
+  text-transform:none;
+  color:#000;
+}
+.foot-grid p{
+  margin:0 0 1px;
+  font-size:18px;
+  font-weight:700;
+  line-height:23.4px;
+  color:#000;
 }
 .foot-grid a:hover{text-decoration:underline}
 
-.social{display:flex;gap:16px;list-style:none;margin:0;padding:0}
+.social{display:flex;gap:7px;list-style:none;margin:7px 0 0;padding:0}
 .social a{
   display:grid;place-items:center;
-  width:30px;height:30px;
-  color:var(--ink);
-  opacity:.85;
-  transition:opacity .2s ease,transform .2s ease;
+  width:28px;height:28px;
+  color:#000;
+  transition:opacity .2s ease;
 }
-.social a:hover{opacity:1;transform:translateY(-2px)}
-.social svg{width:20px;height:20px;fill:currentColor}
+.social a:hover{opacity:.65}
+.social svg{width:22px;height:22px;fill:currentColor}
 
 .copyright{
-  margin:38px 0 0;
-  font-size:13px;
-  font-weight:300;
-  color:var(--muted);
+  margin:49px 0 0;
+  font-size:15px;
+  font-weight:700;
+  line-height:21px;
+  color:#605e5e;
+}
+
+@media (max-width:900px){
+  footer{padding:48px var(--gutter)}
+  .foot-grid{grid-template-columns:1fr;gap:32px}
+  .copyright{margin-top:36px}
 }
 
 @media (prefers-reduced-motion:reduce){

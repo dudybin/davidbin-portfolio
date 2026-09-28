@@ -38,13 +38,18 @@ def shell(title, body, desc):
 """
 
 
-# id, slug, image, kicker, subtitle, light-text?
+# id, slug, image, kicker, subtitle, title colour, subtitle colour, dark-ink button, cta
 PANELS = [
-    ("showreel", "showreel.html", "assets/showreel.jpg", "Previous Work", "Show Reel 2020", True, "Watch"),
-    ("walmart", "walmart-ar.html", "assets/walmart.jpg", "Walmart AR", "Augmented Reality application", False, "View"),
-    ("aps", "aps-support.html", "assets/aps.jpg", "APS Support", "Promotion Teaser for Amdocs", True, "View"),
-    ("architecture", "architecture.html", "assets/architecture.jpg", "Architecture", "Architecture visualization Design", False, "View"),
-    ("cloud", "cloud-services.html", "assets/cloud.jpg", "Cloud Services", "A Teaser for MWC", False, "View"),
+    ("showreel", "showreel.html", "assets/showreel.jpg", "Previous Work", "Show Reel 2020",
+     "#141414", "#141414", True, "Watch"),
+    ("walmart", "walmart-ar.html", "assets/walmart.jpg", "Walmart AR", "Augmented Reality application",
+     "#f2f2f2", "#f2f2f2", False, "View"),
+    ("aps", "aps-support.html", "assets/aps.jpg", "APS Support", "Promotion Teaser for Amdocs",
+     "#141414", "#2f2e2e", True, "View"),
+    ("architecture", "architecture.html", "assets/architecture.jpg", "Architecture", "Architecture visualization Design",
+     "#ffffff", "#ffffff", False, "View"),
+    ("cloud", "cloud-services.html", "assets/cloud.jpg", "Cloud Services", "A Teaser for MWC",
+     "#f2f2f2", "#f2f2f2", False, "View"),
 ]
 
 
@@ -53,11 +58,11 @@ def build_index():
         f'    <li><a href="#{p[0]}" aria-label="{p[3]}"></a></li>' for p in PANELS
     )
     sections = []
-    for pid, href, img, kicker, sub, light, cta in PANELS:
-        cls = "panel panel--light" if light else "panel"
+    for pid, href, img, kicker, sub, tcol, scol, dark_btn, cta in PANELS:
+        cls = "panel panel--light" if dark_btn else "panel"
         if pid == PANELS[0][0]:
             cls += " panel--hero"
-        sections.append(f"""<section class="{cls}" id="{pid}">
+        sections.append(f"""<section class="{cls}" id="{pid}" style="--t:{tcol};--s:{scol}">
   <div class="panel__bg" style="background-image:url('{img}')"></div>
   <div class="panel__copy">
     <h2 class="kicker">{kicker}</h2>
@@ -154,10 +159,6 @@ def build_project(p):
             f'      <span class="facade__play" aria-hidden="true"></span>\n'
             f'    </button>'
         )
-        watch = (
-            f'    <p class="watch"><a href="https://vimeo.com/{vid}" target="_blank"\n'
-            f'      rel="noopener">Watch on Vimeo &#8599;</a></p>\n'
-        )
     else:
         player = (
             f'    <video controls preload="metadata" playsinline poster="{p["poster"]}">\n'
@@ -165,17 +166,17 @@ def build_project(p):
             f'      Your browser does not support the video tag.\n'
             f'    </video>'
         )
-        watch = ""
 
     stage = f"""  <div class="stage">
     <div class="player">
 {player}
     </div>
-{watch}    <a class="back" href="index.html">Back</a>
+    <a class="back" href="index.html">Back</a>
   </div>"""
 
     if p["template"] == "reel":
-        body = f"""<main class="proj proj--reel" style="background-image:url('{p["bg"]}')">
+        body = f"""<main class="proj proj--reel">
+  <div class="proj__wash" style="background-image:url('{p["bg"]}')"></div>
   <div class="stage">
     <h1 class="proj__big">{p["h1"]}</h1>
   </div>
