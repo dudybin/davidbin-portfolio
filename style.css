@@ -739,64 +739,150 @@ footer{
 
   /* keep the bar and the pinned hamburger clear of a notch */
   .topbar{
-    height:64px;
-    padding-left:max(var(--gutter),env(safe-area-inset-left));
-    padding-right:max(var(--gutter),env(safe-area-inset-right));
+    height:calc(15.6vw + env(safe-area-inset-top));   /* 50/320 */
+    min-height:calc(54px + env(safe-area-inset-top));
+    padding-left:max(6.25vw,env(safe-area-inset-left));
+    padding-right:max(6.25vw,env(safe-area-inset-right));
     padding-top:env(safe-area-inset-top);
-    height:calc(64px + env(safe-area-inset-top));
   }
+  .mark{font-size:4.7vw;min-font-size:15px}
   .burger{
-    top:calc(16px + env(safe-area-inset-top));
-    right:max(22px,env(safe-area-inset-right));
-    width:40px;height:40px;
+    top:calc(3.6vw + env(safe-area-inset-top));
+    right:max(5.6vw,env(safe-area-inset-right));
+    width:11vw;height:11vw;
+    min-width:38px;min-height:38px;
+    gap:1.5vw;
   }
+  .burger span:nth-child(1),.burger span:nth-child(3){width:8.4vw;min-width:28px}
+  .burger span:nth-child(2){width:5.6vw;min-width:19px;margin-left:2.8vw}
 
-  /* home panels: centred copy in a full-height panel, no fixed offsets */
+  /* home panels.
+     The original serves a 320px-wide mobile design scaled up to the device,
+     so its proportions are fixed: a 213px panel on a 320px canvas, copy at
+     45px down and a 20px gutter. Expressed in vw those hold at any phone
+     width -- short bands with several visible at once, not full-height
+     panels. Measured on the original at its 320px design width. */
   .panel,.panel--hero{
-    height:auto;
-    min-height:100svh;
-    display:flex;
-    align-items:center;
+    height:66.5vw;            /* 213/320 */
+    min-height:0;
+    display:block;
+    position:relative;
   }
   .panel__copy{
-    position:relative;
-    top:auto;left:auto;right:auto;
-    padding:0 var(--gutter);
+    position:absolute;
+    top:14.1vw;               /* 45/320 */
+    left:6.25vw;              /* 20/320 */
+    right:6.25vw;
+    padding:0;
     max-width:none;
   }
-  .kicker{font-size:clamp(26px,7.2vw,34px);line-height:1.16;letter-spacing:.03em}
-  .sub{font-size:clamp(16px,4.2vw,19px);line-height:1.35;margin-bottom:26px}
-  .btn{width:132px;height:46px;font-size:15px}
+  .kicker{
+    font-size:7.2vw;          /* 23/320 */
+    line-height:8.6vw;
+    letter-spacing:.02em;
+    margin:0 0 3.3vw;
+  }
+  .sub{
+    font-size:5.3vw;          /* 17/320 */
+    line-height:6.25vw;
+    margin:0 0 4.4vw;
+  }
+  .btn{
+    width:31.25vw;            /* 100/320 */
+    height:10.9vw;            /* 35/320 */
+    font-size:4.7vw;
+    min-height:0;
+  }
 
-  /* project pages */
-  .proj__banner{height:clamp(220px,42vw,380px)}
-  .proj__big{font-size:clamp(34px,9vw,52px);line-height:1.15;margin-top:40px}
-  .proj__title{font-size:clamp(22px,5.6vw,26px);line-height:1.3;margin:44px 0 0 0}
-  .proj__lead,.proj__credits{margin-left:0;max-width:none}
-  .player{margin-top:36px}
-  .back{margin-top:40px;height:46px}
+  /* project pages. Same 320px design: the video runs edge to edge, the
+     title sits at the 20px gutter, Back is a centred 120x40. */
+  .stage{width:100%;max-width:none;margin:0;padding:0 var(--gutter)}
+  .proj__banner{height:56vw}
+  .proj__big{
+    font-size:9.4vw;              /* 30/320 */
+    line-height:11.3vw;
+    margin:7vw 0 0;
+  }
+  .proj__title{
+    font-size:6.9vw;              /* 22/320 */
+    line-height:8.4vw;
+    margin:7vw 0 0;
+  }
+  .proj__lead,.proj__credits{
+    font-size:4.7vw;              /* 15/320 */
+    line-height:6.6vw;
+    margin:4.4vw 0 0;
+    max-width:none;
+  }
+  .player{
+    margin:6.5vw calc(-1 * var(--gutter)) 0;   /* edge to edge */
+    width:auto;
+    aspect-ratio:16/9;
+  }
+  .back{
+    width:37.5vw;                 /* 120/320 */
+    height:12.5vw;                /* 40/320 */
+    min-height:40px;
+    font-size:4.7vw;
+    margin:9vw auto 0;
+  }
 
-  /* galleries and text pages */
-  .page{padding-bottom:56px}
-  .page__title{font-size:clamp(30px,8vw,44px);line-height:1.18;margin-top:40px}
-  .grid{margin-top:40px;row-gap:34px}
-  .tile__cap{font-size:16px;line-height:20px;margin:12px 0 0 2px}
-  .tile__play{width:56px;height:56px}
+  /* galleries */
+  .page{padding-bottom:12vw}
+  .page__body{padding:0 var(--gutter)}
+  .page__title{
+    font-size:9.4vw;              /* 30/320 */
+    line-height:11.3vw;
+    margin:10vw 0 0;
+  }
+  .grid{
+    grid-template-columns:1fr;
+    margin:8.1vw 0 0;
+    row-gap:10.3vw;
+  }
+  .grid img,.grid video{aspect-ratio:16/9}
+  .tile__cap{
+    font-size:5.6vw;              /* 18/320 */
+    line-height:6.9vw;
+    margin:4.7vw 0 0 3.75vw;
+  }
+  .tile__play{width:14vw;height:14vw;min-width:48px;min-height:48px}
 
   /* about */
-  .about-page{height:auto;padding-bottom:56px}
-  .about-page__body{padding:40px var(--gutter) 0;height:auto}
-  .about-page__text{font-size:17px;line-height:29px;max-width:none}
-  .about-page__text:first-of-type{margin-top:32px}
-  .about-page__cv{position:static;margin-top:40px;height:46px}
+  .about-page{height:auto;padding-bottom:12vw}
+  .about-page__body{padding:10vw var(--gutter) 0;height:auto}
+  .about-page .page__title{margin:0}
+  .about-page__text{
+    font-size:5.3vw;
+    line-height:9vw;
+    max-width:none;
+    padding-left:0;
+  }
+  .about-page__text:first-of-type{margin-top:8vw}
+  .about-page__cv{
+    position:static;
+    width:47vw;                   /* 151/320 */
+    height:12vw;
+    min-height:42px;
+    font-size:4.7vw;
+    margin:10vw 0 0;
+  }
 
   /* contact */
-  .contact-page{height:auto;padding-bottom:56px}
-  .contact-page__body{padding:40px var(--gutter) 0}
-  .contact-page__bg{position:absolute;height:100%}
-  .contact{width:100%;margin-top:34px}
-  .contact input,.contact textarea{font-size:16px} /* 16px stops iOS zooming */
-  .contact button{height:48px}
+  .contact-page{height:auto;padding-bottom:12vw}
+  .contact-page__body{padding:10vw var(--gutter) 0}
+  .contact-page .page__title{margin:0}
+  .contact{width:100%;margin-top:8vw}
+  .contact__label{font-size:4.4vw;line-height:1.2;margin-bottom:3vw}
+  .contact input,.contact textarea{
+    font-size:16px;               /* 16px stops iOS zooming on focus */
+    height:15vw;
+    min-height:46px;
+    margin-bottom:6vw;
+  }
+  .contact textarea{height:52vw;min-height:170px;margin:9vw 0 9vw}
+  .contact button{height:14.7vw;min-height:46px;font-size:4.7vw}
+  .contact__thanks{font-size:5vw;margin-top:6vw}
 
   /* menu: a centred stack with comfortable tap rows */
   .menu__inner{width:100%}
