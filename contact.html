@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=10">
+<link rel="stylesheet" href="style.css?v=13">
 </head>
 <body>
 <header class="topbar">
@@ -45,16 +45,19 @@
   </div>
 </div>
 
-<main class="page">
-  <div class="page__wash" style="background-image:url('assets/pages/pages-bg.jpg')"></div>
-  <div class="page__body">
+<main class="contact-page">
+  <video class="contact-page__bg" src="assets/pages/contact-bg.mp4?v=13"
+         poster="assets/pages/contact-poster.jpg?v=13"
+         autoplay loop muted playsinline preload="metadata"></video>
+  <div class="contact-page__body">
     <h1 class="page__title">HI THERE</h1>
     <form class="contact" action="https://formsubmit.co/Dudybin@gmail.com" method="POST">
       <input type="hidden" name="_captcha" value="false">
-      <label>Name<input type="text" name="name" autocomplete="name"></label>
-      <label>Email<input type="email" name="email" autocomplete="email" required></label>
-      <label>Subject<input type="text" name="subject"></label>
-      <label>Message<textarea name="message" rows="6"></textarea></label>
+      <label class="contact__label" for="c-name">Your Name</label>
+      <input id="c-name" type="text" name="name" autocomplete="name">
+      <label class="contact__label" for="c-mail">Your Mail</label>
+      <input id="c-mail" type="email" name="email" autocomplete="email" required>
+      <textarea name="message" rows="6" placeholder="Message" aria-label="Message"></textarea>
       <button type="submit">Send</button>
     </form>
   </div>
@@ -82,6 +85,6 @@
   <p class="copyright">2020 by David Bin.</p>
 </footer>
 
-<script src="site.js?v=10"></script>
+<script src="site.js?v=13"></script>
 </body>
 </html>

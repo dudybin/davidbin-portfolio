@@ -6,7 +6,7 @@ HERE = pathlib.Path(__file__).parent
 MENU = (HERE / "_menu.html").read_text()
 FOOTER = (HERE / "_footer.html").read_text()
 
-ASSET_VER = "10"   # bump when style.css or site.js change, to beat caches
+ASSET_VER = "13"   # bump when style.css or site.js change, to beat caches
 
 FONTS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
@@ -325,16 +325,19 @@ ABOUT = """<main class="about-page">
   </div>
 </main>"""
 
-CONTACT = """<main class="page">
-  <div class="page__wash" style="background-image:url('assets/pages/pages-bg.jpg')"></div>
-  <div class="page__body">
+CONTACT = """<main class="contact-page">
+  <video class="contact-page__bg" src="assets/pages/contact-bg.mp4?v={ASSET_VER}"
+         poster="assets/pages/contact-poster.jpg?v={ASSET_VER}"
+         autoplay loop muted playsinline preload="metadata"></video>
+  <div class="contact-page__body">
     <h1 class="page__title">HI THERE</h1>
     <form class="contact" action="https://formsubmit.co/Dudybin@gmail.com" method="POST">
       <input type="hidden" name="_captcha" value="false">
-      <label>Name<input type="text" name="name" autocomplete="name"></label>
-      <label>Email<input type="email" name="email" autocomplete="email" required></label>
-      <label>Subject<input type="text" name="subject"></label>
-      <label>Message<textarea name="message" rows="6"></textarea></label>
+      <label class="contact__label" for="c-name">Your Name</label>
+      <input id="c-name" type="text" name="name" autocomplete="name">
+      <label class="contact__label" for="c-mail">Your Mail</label>
+      <input id="c-mail" type="email" name="email" autocomplete="email" required>
+      <textarea name="message" rows="6" placeholder="Message" aria-label="Message"></textarea>
       <button type="submit">Send</button>
     </form>
   </div>
@@ -343,5 +346,5 @@ CONTACT = """<main class="page">
 for g in GALLERIES:
     (HERE / g["file"]).write_text(build_gallery(g))
 (HERE / "about.html").write_text(shell("ABOUT | David Bin", ABOUT.replace("{ASSET_VER}", ASSET_VER), "About David Bin, Technical Artist."))
-(HERE / "contact.html").write_text(shell("CONTACT | David Bin", CONTACT, "Get in touch with David Bin."))
+(HERE / "contact.html").write_text(shell("CONTACT | David Bin", CONTACT.replace("{ASSET_VER}", ASSET_VER), "Get in touch with David Bin."))
 print("built: " + ", ".join([g["file"] for g in GALLERIES] + ["about.html", "contact.html"]))
