@@ -85,6 +85,7 @@ PROJECTS = [
         lead="",
         credits="",
         vimeo="479598104",
+        poster="assets/poster-showreel.jpg",
         desc="Show Reel 2020 by David Bin.",
     ),
     dict(
@@ -104,6 +105,7 @@ PROJECTS = [
         lead="",
         credits="Art Direction | Animation | Rendering | Compositing",
         vimeo="28478897",
+        poster="assets/poster-aps.jpg",
         desc="Amdocs APS Support Community — promotion teaser.",
     ),
     dict(
@@ -113,6 +115,7 @@ PROJECTS = [
         lead="",
         credits="Art Direction | Compositing | Animation | Rendering",
         vimeo="479600777",
+        poster="assets/poster-architecture.jpg",
         desc="Architecture visualization design.",
     ),
     dict(
@@ -122,6 +125,7 @@ PROJECTS = [
         lead="A short teaser for Amdocs Cloud Services.",
         credits="Art Direction | Animation | Rendering | Compositing",
         vimeo="41475388",
+        poster="assets/poster-cloud.jpg",
         desc="A short teaser for Amdocs Cloud Services, made for MWC.",
     ),
 ]
@@ -129,10 +133,20 @@ PROJECTS = [
 
 def build_project(p):
     if "vimeo" in p:
+        vid = p["vimeo"]
+        # Facade: the poster loads instantly and the Vimeo iframe is only
+        # inserted on click. If the embed is blocked (sandboxed preview, a
+        # network that filters player.vimeo.com), the link below still works.
         player = (
-            f'    <iframe src="https://player.vimeo.com/video/{p["vimeo"]}?title=0&byline=0&portrait=0"\n'
-            f'      title="{p["h1"]}" allow="autoplay; fullscreen; picture-in-picture"\n'
-            f'      allowfullscreen loading="lazy"></iframe>'
+            f'    <button class="facade" type="button" data-vimeo="{vid}"\n'
+            f'      style="background-image:url(\'{p["poster"]}\')"\n'
+            f'      aria-label="Play {p["h1"]}">\n'
+            f'      <span class="facade__play" aria-hidden="true"></span>\n'
+            f'    </button>'
+        )
+        watch = (
+            f'  <p class="watch"><a href="https://vimeo.com/{vid}" target="_blank"\n'
+            f'    rel="noopener">Watch on Vimeo &#8599;</a></p>\n'
         )
     else:
         player = (
@@ -141,6 +155,7 @@ def build_project(p):
             f'      Your browser does not support the video tag.\n'
             f'    </video>'
         )
+        watch = ""
 
     lead = f'  <p class="lead">{p["lead"]}</p>\n' if p["lead"] else ""
     credits = f'  <p class="credits">{p["credits"]}</p>\n' if p["credits"] else ""
@@ -150,7 +165,7 @@ def build_project(p):
 {lead}{credits}  <div class="player">
 {player}
   </div>
-  <a class="back" href="index.html">Back</a>
+{watch}  <a class="back" href="index.html">Back</a>
 </main>"""
     return shell(p["title"], body, p["desc"])
 

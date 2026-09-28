@@ -27,6 +27,22 @@
     window.addEventListener('scroll', solid, { passive: true });
   }
 
+  // Click-to-load Vimeo: keeps the page light and means a blocked embed
+  // degrades to the "Watch on Vimeo" link rather than a dead grey box.
+  var facade = document.querySelector('.facade');
+  if (facade) {
+    facade.addEventListener('click', function () {
+      var id = facade.getAttribute('data-vimeo');
+      var frame = document.createElement('iframe');
+      frame.src = 'https://player.vimeo.com/video/' + id +
+        '?title=0&byline=0&portrait=0&autoplay=1';
+      frame.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+      frame.setAttribute('allowfullscreen', '');
+      frame.setAttribute('title', facade.getAttribute('aria-label') || 'Video');
+      facade.replaceWith(frame);
+    });
+  }
+
   // Home page only: dot nav + parallax
   var panels = [].slice.call(document.querySelectorAll('.panel'));
   if (!panels.length) return;
