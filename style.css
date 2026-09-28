@@ -383,6 +383,12 @@ a{color:inherit;text-decoration:none}
   font-weight:700;
   transition:background .22s ease,color .22s ease;
 }
+/* the gallery pages carry a Back too; the original anchors it at a fixed
+   875px from the left rather than centring it */
+.back--gallery{
+  margin:182px 0 0;
+  margin-left:min(calc(875px - var(--gutter)), calc(100% - 148px));
+}
 .back:hover,.back:focus-visible{background:#fff;color:#000}
 
 .proj .stage:last-of-type{padding-bottom:44px}
@@ -841,6 +847,7 @@ footer{
     font-size:4.7vw;
     margin:9vw auto 0;
   }
+  .back--gallery{margin:12vw auto 0 0}
 
   /* galleries */
   .page{padding-bottom:12vw}
