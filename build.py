@@ -6,7 +6,7 @@ HERE = pathlib.Path(__file__).parent
 MENU = (HERE / "_menu.html").read_text()
 FOOTER = (HERE / "_footer.html").read_text()
 
-ASSET_VER = "15"   # bump when style.css or site.js change, to beat caches
+ASSET_VER = "18"   # bump when style.css or site.js change, to beat caches
 
 FONTS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
@@ -65,7 +65,7 @@ def build_index():
         if pid == PANELS[0][0]:
             cls += " panel--hero"
         sections.append(f"""<section class="{cls}" id="{pid}" style="--t:{tcol};--s:{scol}">
-  <div class="panel__bg" style="background-image:url('{img}')"></div>
+  <div class="panel__bg" style="--bg:url('{img}');--bg-m:url('{img.replace("assets/","assets/m/")}')"></div>
   <div class="panel__copy">
     <h2 class="kicker">{kicker}</h2>
     <p class="sub">{sub}</p>
@@ -178,7 +178,7 @@ def build_project(p):
 
     if p["template"] == "reel":
         body = f"""<main class="proj proj--reel">
-  <div class="proj__wash" style="background-image:url('{p["bg"]}')"></div>
+  <div class="proj__wash" style="--bg:url('{p["bg"]}');--bg-m:url('{p["bg"].replace("assets/","assets/m/")}')"></div>
   <div class="stage">
     <h1 class="proj__big">{p["h1"]}</h1>
   </div>
@@ -188,7 +188,7 @@ def build_project(p):
         lead = f'    <p class="proj__lead">{p["lead"]}</p>\n' if p["lead"] else ""
         credits = f'    <p class="proj__credits">{p["credits"]}</p>\n' if p["credits"] else ""
         body = f"""<main class="proj proj--hero">
-  <div class="proj__banner" style="background-image:url('{p["bg"]}')"></div>
+  <div class="proj__banner" style="--bg:url('{p["bg"]}');--bg-m:url('{p["bg"].replace("assets/","assets/m/")}')"></div>
   <div class="stage">
     <h1 class="proj__title">{p["h1"]}</h1>
 {lead}{credits}  </div>
@@ -295,7 +295,7 @@ def build_gallery(g):
     w, h = g["tile"]
     cg, rg = g["gap"]
     body = f"""<main class="page">
-  <div class="page__wash" style="background-image:url('assets/pages/pages-bg.jpg')"></div>
+  <div class="page__wash" style="--bg:url('assets/pages/pages-bg.jpg');--bg-m:url('assets/m/pages-bg.jpg')"></div>
   <div class="page__body">
     <h1 class="page__title">{g["h1"]}</h1>
     <ul class="grid" style="--tile-w:{w}px;--tile-h:{h}px;--col-gap:{cg}px;--row-gap:{rg}px;--cols:{g["cols"]}">
@@ -313,7 +313,7 @@ def build_gallery(g):
 
 
 ABOUT = """<main class="about-page">
-  <div class="about-page__portrait" style="background-image:url('assets/pages/about.jpg?v={ASSET_VER}')"></div>
+  <div class="about-page__portrait" style="--bg:url('assets/pages/about.jpg?v={ASSET_VER}');--bg-m:url('assets/m/about.jpg?v={ASSET_VER}')"></div>
   <div class="about-page__body">
     <h1 class="page__title">ABOUT ME</h1>
     <p class="about-page__text">Hi my name is David and I am a Technical Artist.</p>

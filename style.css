@@ -15,7 +15,10 @@
 
 *,*::before,*::after{box-sizing:border-box}
 
-html{scroll-behavior:smooth}
+html{
+  scroll-behavior:smooth;
+  -webkit-text-size-adjust:100%;
+}
 
 body{
   margin:0;
@@ -145,16 +148,6 @@ a{color:inherit;text-decoration:none}
 .menu__social a:hover{color:#fff}
 .menu__social svg{width:21px;height:21px;fill:currentColor}
 
-@media (max-width:900px){
-  .menu__inner{width:100%}
-  .menu__close{top:28px;right:22px}
-  .menu__list{
-    top:50%;transform:translateY(-50%);
-    flex-direction:column;align-items:center;gap:4px;
-  }
-  .menu__list a{font-size:19px;letter-spacing:.08em;color:#ccc}
-  .menu__social{top:auto;bottom:72px}
-}
 
 /* ---------- section dots ---------- */
 
@@ -187,6 +180,7 @@ a{color:inherit;text-decoration:none}
 
 .panel__bg{
   position:absolute;inset:0;
+  background-image:var(--bg);
   background-size:cover;
   background-position:center;
 }
@@ -260,6 +254,7 @@ a{color:inherit;text-decoration:none}
 
 .proj__banner{
   height:489px;
+  background-image:var(--bg);
   background-size:cover;
   background-position:center;
 }
@@ -293,6 +288,7 @@ a{color:inherit;text-decoration:none}
 }
 .proj__wash{
   position:absolute;inset:0;
+  background-image:var(--bg);
   background-size:cover;
   background-position:center;
   opacity:.2;
@@ -394,6 +390,7 @@ a{color:inherit;text-decoration:none}
 }
 .page__wash{
   position:absolute;inset:0;
+  background-image:var(--bg);
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
@@ -601,19 +598,7 @@ a{color:inherit;text-decoration:none}
 }
 .contact button:hover,.contact button:focus-visible{background:#fff;color:#000}
 
-@media (max-width:900px){
-  .contact-page{height:auto;padding-bottom:64px}
-  .contact{width:100%}
-}
 
-@media (max-width:1100px){
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px;row-gap:40px}
-  .about{grid-template-columns:1fr;gap:32px}
-}
-@media (max-width:640px){
-  .grid{grid-template-columns:1fr}
-  .page__title{font-size:34px;line-height:42px}
-}
 
 /* ---------- about ---------- */
 /* Measured: a 611px #2f2e2e band with the portrait over it at 4% opacity,
@@ -629,6 +614,7 @@ a{color:inherit;text-decoration:none}
 }
 .about-page__portrait{
   position:absolute;inset:0;
+  background-image:var(--bg);
   background-size:cover;
   /* about.jpg is the same 1425x611 top-aligned (al_t) crop Wix serves, so
      cover/centre is a no-op and the framing matches the original */
@@ -668,10 +654,6 @@ a{color:inherit;text-decoration:none}
 }
 .about-page__cv:hover,.about-page__cv:focus-visible{background:#fff;color:#2f2e2e}
 
-@media (max-width:900px){
-  .about-page{height:auto;padding-bottom:64px}
-  .about-page__cv{position:static;margin-top:48px}
-}
 
 /* ---------- footer ---------- */
 /* Measured: white, 306px tall, columns starting at x=89 / 486 / 960,
@@ -731,11 +713,6 @@ footer{
   color:#605e5e;
 }
 
-@media (max-width:900px){
-  footer{padding:48px var(--gutter)}
-  .foot-grid{grid-template-columns:1fr;gap:32px}
-  .copyright{margin-top:36px}
-}
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -743,16 +720,165 @@ footer{
 }
 
 /* narrow screens: the original is a fixed desktop layout, so scale it down */
-@media (max-width:900px){
-  :root{--gutter:40px}
-  .burger{right:26px}
-  .panel,.panel--hero{height:auto;min-height:100svh;display:flex;align-items:center}
-  .panel__copy{position:relative;top:auto;left:auto;right:auto;padding:0 var(--gutter)}
-  .kicker{font-size:30px;line-height:36px}
-  .sub{font-size:19px;line-height:24px}
+
+/* =========================================================================
+   MOBILE
+   The desktop layout above is a fixed-pixel reproduction of the original.
+   Everything below adapts it for phones and tablets: flow instead of fixed
+   offsets, fluid type, 44px tap targets, notch-safe insets, and lighter
+   images. Desktop rendering is untouched.
+   ========================================================================= */
+
+@media (max-width:1100px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px;row-gap:40px}
+  .about{grid-template-columns:1fr;gap:32px}
 }
+
+@media (max-width:900px){
+  :root{--gutter:32px}
+
+  /* keep the bar and the pinned hamburger clear of a notch */
+  .topbar{
+    height:64px;
+    padding-left:max(var(--gutter),env(safe-area-inset-left));
+    padding-right:max(var(--gutter),env(safe-area-inset-right));
+    padding-top:env(safe-area-inset-top);
+    height:calc(64px + env(safe-area-inset-top));
+  }
+  .burger{
+    top:calc(16px + env(safe-area-inset-top));
+    right:max(22px,env(safe-area-inset-right));
+    width:40px;height:40px;
+  }
+
+  /* home panels: centred copy in a full-height panel, no fixed offsets */
+  .panel,.panel--hero{
+    height:auto;
+    min-height:100svh;
+    display:flex;
+    align-items:center;
+  }
+  .panel__copy{
+    position:relative;
+    top:auto;left:auto;right:auto;
+    padding:0 var(--gutter);
+    max-width:none;
+  }
+  .kicker{font-size:clamp(26px,7.2vw,34px);line-height:1.16;letter-spacing:.03em}
+  .sub{font-size:clamp(16px,4.2vw,19px);line-height:1.35;margin-bottom:26px}
+  .btn{width:132px;height:46px;font-size:15px}
+
+  /* project pages */
+  .proj__banner{height:clamp(220px,42vw,380px)}
+  .proj__big{font-size:clamp(34px,9vw,52px);line-height:1.15;margin-top:40px}
+  .proj__title{font-size:clamp(22px,5.6vw,26px);line-height:1.3;margin:44px 0 0 0}
+  .proj__lead,.proj__credits{margin-left:0;max-width:none}
+  .player{margin-top:36px}
+  .back{margin-top:40px;height:46px}
+
+  /* galleries and text pages */
+  .page{padding-bottom:56px}
+  .page__title{font-size:clamp(30px,8vw,44px);line-height:1.18;margin-top:40px}
+  .grid{margin-top:40px;row-gap:34px}
+  .tile__cap{font-size:16px;line-height:20px;margin:12px 0 0 2px}
+  .tile__play{width:56px;height:56px}
+
+  /* about */
+  .about-page{height:auto;padding-bottom:56px}
+  .about-page__body{padding:40px var(--gutter) 0;height:auto}
+  .about-page__text{font-size:17px;line-height:29px;max-width:none}
+  .about-page__text:first-of-type{margin-top:32px}
+  .about-page__cv{position:static;margin-top:40px;height:46px}
+
+  /* contact */
+  .contact-page{height:auto;padding-bottom:56px}
+  .contact-page__body{padding:40px var(--gutter) 0}
+  .contact-page__bg{position:absolute;height:100%}
+  .contact{width:100%;margin-top:34px}
+  .contact input,.contact textarea{font-size:16px} /* 16px stops iOS zooming */
+  .contact button{height:48px}
+
+  /* menu: a centred stack with comfortable tap rows */
+  .menu__inner{width:100%}
+
+  /* the pinned hamburger sits where the overlay's X would, so on phones the
+     hamburger itself becomes the close control */
+  .menu__close{display:none}
+  .burger{z-index:70}
+  .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .menu__list{
+    top:50%;left:0;right:0;
+    transform:translateY(-50%);
+    flex-direction:column;
+    align-items:stretch;
+    gap:2px;
+    padding:0 var(--gutter);
+  }
+  .menu__list li{display:block}
+  .menu__list a{
+    justify-content:center;
+    height:52px;
+    padding:0 16px;
+    font-size:17px;
+    letter-spacing:.1em;
+    color:#d2d2d2;
+  }
+  .menu__list a[aria-current="page"]{background:#ede9e1;color:#2f2e2e}
+  .menu__social{
+    top:auto;
+    bottom:calc(56px + env(safe-area-inset-bottom));
+    gap:34px;
+  }
+  .menu__social a{width:34px;height:34px}
+  .menu__social svg{width:24px;height:24px}
+
+  /* footer */
+  footer{
+    padding:44px var(--gutter) calc(44px + env(safe-area-inset-bottom));
+  }
+  .foot-grid{grid-template-columns:1fr;gap:30px}
+  .foot-grid > div:first-child p,
+  .foot-grid p,
+  .foot-grid h2{font-size:16px;line-height:22px}
+  .copyright{margin-top:30px}
+
+  /* comfortable tap rows in the footer */
+  .foot-grid a[href^="mailto"]{display:inline-block;padding:9px 0}
+  .social{gap:10px;margin-top:10px}
+  .social a{width:44px;height:44px;margin-left:-10px}
+  .social svg{width:24px;height:24px}
+  .mark{display:inline-flex;align-items:center;height:44px}
+
+  /* lightbox */
+  .lightbox__frame{width:100vw}
+  .lightbox__close{
+    top:calc(18px + env(safe-area-inset-top));
+    right:max(18px,env(safe-area-inset-right));
+  }
+
+  /* lighter artwork for phones: each element carries both sources */
+  .panel__bg,.proj__wash,.proj__banner,.page__wash,.about-page__portrait{
+    background-image:var(--bg-m,var(--bg));
+  }
+}
+
+@media (max-width:640px){
+  .grid{grid-template-columns:1fr}
+}
+
 @media (max-width:520px){
-  :root{--gutter:24px}
-  .kicker{font-size:25px;line-height:30px}
-  .sub{font-size:17px;line-height:22px}
+  :root{--gutter:22px}
+  .sub{margin-bottom:22px}
+  .proj__banner{height:210px}
+}
+
+/* phone in landscape: a 100svh panel leaves no room, so let it breathe */
+@media (max-width:900px) and (orientation:landscape) and (max-height:520px){
+  .panel,.panel--hero{min-height:auto;padding:88px 0 56px}
+  .menu__list{position:static;transform:none;padding-top:84px}
+  .menu__list a{height:42px;font-size:15px}
+  .menu__social{position:static;margin:22px 0 40px}
+  .menu__inner{height:auto;min-height:100%;overflow-y:auto}
 }
