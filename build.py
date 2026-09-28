@@ -214,9 +214,20 @@ GALLERIES = [
         h1="POST-PRODUCTION",
         desc="Post-production work by David Bin.",
         cols=3, tile=(403, 227), gap=(20, 90),
-        items=[f"assets/pages/pp{i}.jpg" for i in (1, 2, 3, 4)]
-              + ["assets/pages/pp-png.jpg"]
-              + [f"assets/pages/pp{i}.jpg" for i in (5, 6, 7, 8, 9, 10)],
+        # each tile opens its Vimeo video in a lightbox, as the original does
+        items=[
+            ("assets/pages/pp1.jpg", "Amdocs APS Community", "28478897"),
+            ("assets/pages/pp2.jpg", "Amdocs CES9 Launch", "20839390"),
+            ("assets/pages/pp3.jpg", "Amdocs Cloud Services", "41475388"),
+            ("assets/pages/pp4.jpg", "Amdocs Prepaid Solutions", "41490826"),
+            ("assets/pages/pp-png.jpg", "Hagag Salame", "482241338"),
+            ("assets/pages/pp5.jpg", "Lilien 8", "479600777"),
+            ("assets/pages/pp6.jpg", "Nature-Valley", "76411105"),
+            ("assets/pages/pp7.jpg", "Netivei Israel", "182375656"),
+            ("assets/pages/pp8.jpg", "Opel MOKKA", "95156760"),
+            ("assets/pages/pp9.jpg", "Pop Star", "482240633"),
+            ("assets/pages/pp10.jpg", "Reshet 13", "479737472"),
+        ],
     ),
     dict(
         file="unity.html",
@@ -224,7 +235,14 @@ GALLERIES = [
         h1="UNITY",
         desc="Realtime work in Unity by David Bin.",
         cols=3, tile=(533, 300), gap=(20, 90),
-        items=[f"assets/pages/un{i}.jpg" for i in range(1, 7)],
+        items=[
+            ("assets/pages/un1.jpg", "Reel AR", None),
+            ("assets/pages/un2.jpg", "Butterflies AR", None),
+            ("assets/pages/un3.jpg", "Drone AR flight", None),
+            ("assets/pages/un4.jpg", "States machine", None),
+            ("assets/pages/un5.jpg", "Walmart AR", None),
+            ("assets/pages/un6.jpg", "Game Platform", None),
+        ],
     ),
     dict(
         file="unreal-for-vp.html",
@@ -232,22 +250,36 @@ GALLERIES = [
         h1="VIRTUAL PRODUCTION",
         desc="Virtual production work in Unreal by David Bin.",
         cols=3, tile=(533, 300), gap=(20, 90),
-        items=["assets/pages/vp1.mp4", "assets/pages/vp2.mp4", "assets/pages/vp3.mp4",
-               "assets/pages/vp5.jpg", "assets/pages/vp4.mp4", "assets/pages/vp6.jpg"],
+        items=[
+            ("assets/pages/vp1.mp4", "Dynamic Graphs Blue Print", None),
+            ("assets/pages/vp2.mp4", "Aximmtery\\Unreal", None),
+            ("assets/pages/vp3.mp4", "Multi-Virtual cameras output for VP", None),
+            ("assets/pages/vp5.jpg", "Pilot ONE", None),
+            ("assets/pages/vp4.mp4", "Shooting day", None),
+            ("assets/pages/vp6.jpg", "Amdocs session CEO", None),
+        ],
     ),
 ]
 
 
 def build_gallery(g):
     tiles = []
-    for src in g["items"]:
+    for src, caption, vimeo in g["items"]:
         if src.endswith(".mp4"):
-            tiles.append(
-                f'      <li><video src="{src}" autoplay loop muted playsinline '
-                f'preload="metadata"></video></li>'
-            )
+            media = (f'<video src="{src}" autoplay loop muted playsinline '
+                     f'preload="metadata"></video>')
         else:
-            tiles.append(f'      <li><img src="{src}" alt="" loading="lazy"></li>')
+            media = f'<img src="{src}" alt="{caption}" loading="lazy">'
+        if vimeo:
+            media = (f'<button class="tile__open" type="button" data-vimeo="{vimeo}"\n'
+                     f'          aria-label="Play {caption}">{media}'
+                     f'<span class="tile__play" aria-hidden="true"></span></button>')
+        tiles.append(
+            f'      <li class="tile">\n'
+            f'        {media}\n'
+            f'        <p class="tile__cap">{caption}</p>\n'
+            f'      </li>'
+        )
     w, h = g["tile"]
     cg, rg = g["gap"]
     body = f"""<main class="page">
@@ -257,6 +289,12 @@ def build_gallery(g):
     <ul class="grid" style="--tile-w:{w}px;--tile-h:{h}px;--col-gap:{cg}px;--row-gap:{rg}px;--cols:{g["cols"]}">
 {chr(10).join(tiles)}
     </ul>
+  </div>
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox__close" type="button" aria-label="Close video">
+      <svg viewBox="0 0 31 31" aria-hidden="true"><path d="M2 2 L29 29 M29 2 L2 29" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>
+    </button>
+    <div class="lightbox__frame"></div>
   </div>
 </main>"""
     return shell(g["title"], body, g["desc"])

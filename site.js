@@ -43,6 +43,35 @@
     });
   }
 
+  // Gallery tiles: open the video in a lightbox, as the original does
+  var lightbox = document.getElementById('lightbox');
+  if (lightbox) {
+    var frame = lightbox.querySelector('.lightbox__frame');
+    var shut = function () {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      frame.innerHTML = '';
+      document.body.style.overflow = '';
+    };
+    [].forEach.call(document.querySelectorAll('.tile__open'), function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-vimeo');
+        frame.innerHTML = '<iframe src="https://player.vimeo.com/video/' + id +
+          '?title=0&byline=0&portrait=0&autoplay=1" allow="autoplay; fullscreen; ' +
+          'picture-in-picture" allowfullscreen title="' +
+          (btn.getAttribute('aria-label') || 'Video') + '"></iframe>';
+        lightbox.classList.add('open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    lightbox.querySelector('.lightbox__close').addEventListener('click', shut);
+    lightbox.addEventListener('click', function (e) { if (e.target === lightbox) shut(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && lightbox.classList.contains('open')) shut();
+    });
+  }
+
   // Home page only: section dot navigation
   var panels = [].slice.call(document.querySelectorAll('.panel'));
   if (!panels.length) return;
