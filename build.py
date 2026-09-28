@@ -201,3 +201,99 @@ for p in PROJECTS:
     (HERE / p["file"]).write_text(build_project(p))
 
 print("built: index.html + " + ", ".join(p["file"] for p in PROJECTS))
+
+
+# ---------------------------------------------------------------- gallery +
+# text pages reached from the menu. All share one full-bleed background
+# (projects_we_BG) with a 60px light title at x=86 / y=131, then a grid.
+
+GALLERIES = [
+    dict(
+        file="post-production.html",
+        title="POST-PRODUCTION | David Bin",
+        h1="POST-PRODUCTION",
+        desc="Post-production work by David Bin.",
+        cols=3, tile=(403, 227), gap=(20, 90),
+        items=[f"assets/pages/pp{i}.jpg" for i in (1, 2, 3, 4)]
+              + ["assets/pages/pp-png.jpg"]
+              + [f"assets/pages/pp{i}.jpg" for i in (5, 6, 7, 8, 9, 10)],
+    ),
+    dict(
+        file="unity.html",
+        title="UNITY | David Bin",
+        h1="UNITY",
+        desc="Realtime work in Unity by David Bin.",
+        cols=3, tile=(533, 300), gap=(20, 90),
+        items=[f"assets/pages/un{i}.jpg" for i in range(1, 7)],
+    ),
+    dict(
+        file="unreal-for-vp.html",
+        title="UNREAL FOR VP | David Bin",
+        h1="VIRTUAL PRODUCTION",
+        desc="Virtual production work in Unreal by David Bin.",
+        cols=3, tile=(533, 300), gap=(20, 90),
+        items=["assets/pages/vp1.mp4", "assets/pages/vp2.mp4", "assets/pages/vp3.mp4",
+               "assets/pages/vp5.jpg", "assets/pages/vp4.mp4", "assets/pages/vp6.jpg"],
+    ),
+]
+
+
+def build_gallery(g):
+    tiles = []
+    for src in g["items"]:
+        if src.endswith(".mp4"):
+            tiles.append(
+                f'      <li><video src="{src}" autoplay loop muted playsinline '
+                f'preload="metadata"></video></li>'
+            )
+        else:
+            tiles.append(f'      <li><img src="{src}" alt="" loading="lazy"></li>')
+    w, h = g["tile"]
+    cg, rg = g["gap"]
+    body = f"""<main class="page">
+  <div class="page__wash" style="background-image:url('assets/pages/pages-bg.jpg')"></div>
+  <div class="page__body">
+    <h1 class="page__title">{g["h1"]}</h1>
+    <ul class="grid" style="--tile-w:{w}px;--tile-h:{h}px;--col-gap:{cg}px;--row-gap:{rg}px;--cols:{g["cols"]}">
+{chr(10).join(tiles)}
+    </ul>
+  </div>
+</main>"""
+    return shell(g["title"], body, g["desc"])
+
+
+ABOUT = """<main class="page">
+  <div class="page__wash" style="background-image:url('assets/pages/pages-bg.jpg')"></div>
+  <div class="page__body">
+    <h1 class="page__title">ABOUT ME</h1>
+    <div class="about">
+      <img class="about__portrait" src="assets/pages/about.jpg" alt="David Bin">
+      <div class="about__text">
+        <p>Hi my name is David and I am a Technical Artist.</p>
+        <p>I work with 2D and 3D software's for Realtime engines like Unity and
+        Unreal to produce emissive content or interactive experience.</p>
+      </div>
+    </div>
+  </div>
+</main>"""
+
+CONTACT = """<main class="page">
+  <div class="page__wash" style="background-image:url('assets/pages/pages-bg.jpg')"></div>
+  <div class="page__body">
+    <h1 class="page__title">HI THERE</h1>
+    <form class="contact" action="https://formsubmit.co/Dudybin@gmail.com" method="POST">
+      <input type="hidden" name="_captcha" value="false">
+      <label>Name<input type="text" name="name" autocomplete="name"></label>
+      <label>Email<input type="email" name="email" autocomplete="email" required></label>
+      <label>Subject<input type="text" name="subject"></label>
+      <label>Message<textarea name="message" rows="6"></textarea></label>
+      <button type="submit">Send</button>
+    </form>
+  </div>
+</main>"""
+
+for g in GALLERIES:
+    (HERE / g["file"]).write_text(build_gallery(g))
+(HERE / "about.html").write_text(shell("ABOUT | David Bin", ABOUT, "About David Bin, Technical Artist."))
+(HERE / "contact.html").write_text(shell("CONTACT | David Bin", CONTACT, "Get in touch with David Bin."))
+print("built: " + ", ".join([g["file"] for g in GALLERIES] + ["about.html", "contact.html"]))
