@@ -39,6 +39,7 @@ a{color:inherit;text-decoration:none}
   z-index:60;
   padding:0 92px;
   background:var(--bar);
+  justify-content:flex-start;
 }
 
 .mark{
@@ -49,9 +50,13 @@ a{color:inherit;text-decoration:none}
   color:#fff;
 }
 
-/* hamburger */
+/* hamburger — the bar scrolls away with the page but this stays pinned,
+   which is what the original does (measured: fixed at top 20, right 71) */
 .burger{
-  width:34px;height:34px;
+  position:fixed;
+  top:20px;right:71px;
+  z-index:70;
+  width:34px;height:33px;
   border:0;background:none;padding:0;
   cursor:pointer;
   display:flex;flex-direction:column;justify-content:center;gap:5px;
@@ -740,6 +745,7 @@ footer{
 /* narrow screens: the original is a fixed desktop layout, so scale it down */
 @media (max-width:900px){
   :root{--gutter:40px}
+  .burger{right:26px}
   .panel,.panel--hero{height:auto;min-height:100svh;display:flex;align-items:center}
   .panel__copy{position:relative;top:auto;left:auto;right:auto;padding:0 var(--gutter)}
   .kicker{font-size:30px;line-height:36px}
