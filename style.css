@@ -577,6 +577,8 @@ a{color:inherit;text-decoration:none}
 .about-page__portrait{
   position:absolute;inset:0;
   background-size:cover;
+  /* about.jpg is the same 1425x611 top-aligned (al_t) crop Wix serves, so
+     cover/centre is a no-op and the framing matches the original */
   background-position:center;
   opacity:.04;
   pointer-events:none;
