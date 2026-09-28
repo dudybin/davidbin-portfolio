@@ -51,6 +51,13 @@
     if (form) form.reset();
   }
 
+  // Serve the phone-sized still on narrow screens
+  if (window.matchMedia('(max-width: 900px)').matches) {
+    [].forEach.call(document.querySelectorAll('.shots img[data-m]'), function (img) {
+      img.src = img.getAttribute('data-m');
+    });
+  }
+
   // Gallery tiles: open the video in a lightbox, as the original does
   var lightbox = document.getElementById('lightbox');
   if (lightbox) {

@@ -6,7 +6,7 @@ HERE = pathlib.Path(__file__).parent
 MENU = (HERE / "_menu.html").read_text()
 FOOTER = (HERE / "_footer.html").read_text()
 
-ASSET_VER = "26"   # bump when style.css or site.js change, to beat caches
+ASSET_VER = "28"   # bump when style.css or site.js change, to beat caches
 
 FONTS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
@@ -119,6 +119,8 @@ PROJECTS = [
         credits="Art Direction | Animation | Rendering | Compositing",
         vimeo="28478897",
         poster="assets/poster-aps.jpg",
+        gallery=["assets/pages/apsg1.jpg", "assets/pages/apsg2.jpg",
+                 "assets/pages/apsg3.jpg"],
         bg="assets/bg-aps.jpg",
         desc="Amdocs APS Support Community — promotion teaser.",
     ),
@@ -131,6 +133,7 @@ PROJECTS = [
         credits="Art Direction | Compositing | Animation | Rendering",
         vimeo="479600777",
         poster="assets/poster-architecture.jpg",
+        gallery=[f"assets/pages/arch{i}.jpg" for i in range(1, 7)],
         bg="assets/bg-architecture.jpg",
         desc="Architecture visualization design.",
     ),
@@ -143,6 +146,8 @@ PROJECTS = [
         credits="Art Direction | Animation | Rendering | Compositing",
         vimeo="41475388",
         poster="assets/poster-cloud.jpg",
+        gallery=["assets/pages/clg1.jpg", "assets/pages/clg2.jpg",
+                 "assets/pages/clg3.jpg"],
         bg="assets/bg-cloud.jpg",
         desc="A short teaser for Amdocs Cloud Services, made for MWC.",
     ),
@@ -169,10 +174,22 @@ def build_project(p):
             f'    </video>'
         )
 
+    gallery = ""
+    if p.get("gallery"):
+        shots = "\n".join(
+            f'      <li><img src="{src}" data-m="{src.replace("assets/pages/", "assets/m/")}"'
+            f' alt="" loading="lazy"></li>'
+            for src in p["gallery"]
+        )
+        gallery = f"""
+    <ul class="shots">
+{shots}
+    </ul>"""
+
     stage = f"""  <div class="stage">
     <div class="player">
 {player}
-    </div>
+    </div>{gallery}
     <a class="back" href="index.html">Back</a>
   </div>"""
 
