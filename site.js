@@ -43,6 +43,14 @@
     });
   }
 
+  // Contact: show the original's confirmation after a successful send
+  var thanks = document.getElementById('thanks');
+  if (thanks && /[?&]sent=1/.test(location.search)) {
+    thanks.hidden = false;
+    var form = document.querySelector('.contact');
+    if (form) form.reset();
+  }
+
   // Gallery tiles: open the video in a lightbox, as the original does
   var lightbox = document.getElementById('lightbox');
   if (lightbox) {

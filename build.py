@@ -6,7 +6,7 @@ HERE = pathlib.Path(__file__).parent
 MENU = (HERE / "_menu.html").read_text()
 FOOTER = (HERE / "_footer.html").read_text()
 
-ASSET_VER = "13"   # bump when style.css or site.js change, to beat caches
+ASSET_VER = "14"   # bump when style.css or site.js change, to beat caches
 
 FONTS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
@@ -331,8 +331,13 @@ CONTACT = """<main class="contact-page">
          autoplay loop muted playsinline preload="metadata"></video>
   <div class="contact-page__body">
     <h1 class="page__title">HI THERE</h1>
+    <p class="contact__thanks" id="thanks" hidden>Thanks for submitting!</p>
     <form class="contact" action="https://formsubmit.co/Dudybin@gmail.com" method="POST">
       <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_subject" value="New message from davidbin portfolio">
+      <input type="hidden" name="_next" value="https://dudybin.github.io/davidbin-portfolio/contact.html?sent=1">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
       <label class="contact__label" for="c-name">Your Name</label>
       <input id="c-name" type="text" name="name" autocomplete="name">
       <label class="contact__label" for="c-mail">Your Mail</label>
