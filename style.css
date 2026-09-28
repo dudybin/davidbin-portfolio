@@ -923,22 +923,66 @@ footer{
   .menu__social a{width:34px;height:34px}
   .menu__social svg{width:24px;height:24px}
 
-  /* footer */
+  /* footer.
+     The original's mobile footer is a different composition from desktop:
+     the intro paragraph is dropped entirely, the copyright comes first on
+     white, and CONTACT / SOCIAL sit together in a full-bleed grey band.
+     Measured at the 320 design width. */
   footer{
-    padding:44px var(--gutter) calc(44px + env(safe-area-inset-bottom));
+    display:flex;
+    flex-direction:column;
+    background:#fff;
+    padding:7.2vw 0 0;          /* copyright 23px down */
   }
-  .foot-grid{grid-template-columns:1fr;gap:30px}
-  .foot-grid > div:first-child p,
-  .foot-grid p,
-  .foot-grid h2{font-size:16px;line-height:22px}
-  .copyright{margin-top:30px}
+  .copyright{
+    order:-1;
+    margin:0 0 6.56vw;
+    padding:0 var(--gutter);
+    font-size:4.7vw;            /* 15/320 */
+    line-height:5.6vw;          /* box 18 */
+    font-weight:700;
+    color:#605e5e;
+  }
+  .foot-grid{
+    display:block;
+    background:rgba(173,173,172,.3);
+    padding:6.9vw var(--gutter) 6.25vw;
+    gap:0;
+  }
+  .foot-grid > div:first-child{display:none}   /* no intro on mobile */
+  .foot-grid > div:last-child{margin-top:7.8vw}
+  .foot-grid h2{
+    font-size:5.6vw;            /* 18/320 */
+    line-height:6.56vw;         /* box 21 */
+    font-weight:700;
+    color:#2f2e2e;
+    margin:0 0 4.06vw;
+  }
+  .foot-grid p{
+    font-size:5.3vw;            /* 17/320 */
+    line-height:6.25vw;         /* box 20 */
+    font-weight:700;
+    color:#2f2e2e;
+    margin:0 0 .6vw;
+  }
+  .foot-grid a[href^="mailto"]{display:inline;padding:0}
+  .foot-grid > div:last-child h2{margin-bottom:3.75vw}
 
-  /* comfortable tap rows in the footer */
-  .foot-grid a[href^="mailto"]{display:inline-block;padding:9px 0}
-  .social{gap:10px;margin-top:10px}
-  .social a{width:44px;height:44px;margin-left:-10px}
-  .social svg{width:24px;height:24px}
-  .mark{display:inline-flex;align-items:center;height:44px}
+  .social{gap:3.1vw;margin:0;padding:0}        /* 32px pitch on a 22px icon */
+  .social a{
+    position:relative;
+    width:6.9vw;height:6.9vw;   /* 22/320 */
+    min-width:0;min-height:0;
+    margin:0;
+    color:#2f2e2e;
+  }
+  /* keep a finger-sized hit area without changing the drawn size */
+  .social a::after{
+    content:"";position:absolute;
+    top:50%;left:50%;transform:translate(-50%,-50%);
+    width:44px;height:44px;
+  }
+  .social svg{width:100%;height:100%}
 
   /* lightbox */
   .lightbox__frame{width:100vw}
