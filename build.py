@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """Builds index.html + the five project pages from the shared partials."""
 import pathlib
+import re
+import subprocess
 
 HERE = pathlib.Path(__file__).parent
 MENU = (HERE / "_menu.html").read_text()
 FOOTER = (HERE / "_footer.html").read_text()
 
-ASSET_VER = "28"   # bump when style.css or site.js change, to beat caches
+ASSET_VER = "30"   # bump when style.css or site.js change, to beat caches
 
 FONTS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
@@ -115,7 +117,10 @@ PROJECTS = [
         template="hero",
         title="Amdocs APS Support Community | David Bin",
         h1="Amdocs APS Support Community",
-        lead="",
+        lead="A short teaser for Amdocs APS Support community. it enables Amdocs "
+             "customers to interact and stay in touch with Amdocs product experts "
+             "and other customers, share their personal technical experiences and "
+             "find fast and creative solutions for their product queries.",
         credits="Art Direction | Animation | Rendering | Compositing",
         vimeo="28478897",
         poster="assets/poster-aps.jpg",
@@ -129,7 +134,7 @@ PROJECTS = [
         template="hero",
         title="Architecture | David Bin",
         h1="Architecture Projects",
-        lead="Some of my Architecture 3D design frames and renders.",
+        lead="Some of my Architecture 3D design frames and real estate marketing videos.",
         credits="Art Direction | Compositing | Animation | Rendering",
         vimeo="479600777",
         poster="assets/poster-architecture.jpg",
@@ -142,7 +147,10 @@ PROJECTS = [
         template="hero",
         title="Amdocs Cloud Services | David Bin",
         h1="Amdocs Cloud Services",
-        lead="A short teaser for Amdocs Cloud Services.",
+        lead="A short teaser for Amdocs Cloud Services. The system provides a "
+             "pragmatic and reliable roadmap, backed by expert professional "
+             "services, to evolve mission-critical BSS, OSS and network "
+             "solutions to the cloud.",
         credits="Art Direction | Animation | Rendering | Compositing",
         vimeo="41475388",
         poster="assets/poster-cloud.jpg",
@@ -152,6 +160,16 @@ PROJECTS = [
         desc="A short teaser for Amdocs Cloud Services, made for MWC.",
     ),
 ]
+
+
+def _dims(path):
+    """Intrinsic size, so lazy images reserve space instead of collapsing to
+    zero height (which stops them ever entering the viewport to load)."""
+    out = subprocess.run(["sips", "-g", "pixelWidth", "-g", "pixelHeight", path],
+                         capture_output=True, text=True).stdout
+    w = re.search(r"pixelWidth:\s*(\d+)", out)
+    h = re.search(r"pixelHeight:\s*(\d+)", out)
+    return (w.group(1), h.group(1)) if w and h else ("", "")
 
 
 def build_project(p):
@@ -178,7 +196,8 @@ def build_project(p):
     if p.get("gallery"):
         shots = "\n".join(
             f'      <li><img src="{src}" data-m="{src.replace("assets/pages/", "assets/m/")}"'
-            f' alt="" loading="lazy"></li>'
+            f' width="{_dims(str(HERE / src))[0]}" height="{_dims(str(HERE / src))[1]}"'
+            f' alt="" loading="lazy" decoding="async"></li>'
             for src in p["gallery"]
         )
         gallery = f"""
@@ -281,6 +300,7 @@ GALLERIES = [
         ],
     ),
 ]
+
 
 
 def build_gallery(g):
