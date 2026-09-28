@@ -6,7 +6,7 @@ HERE = pathlib.Path(__file__).parent
 MENU = (HERE / "_menu.html").read_text()
 FOOTER = (HERE / "_footer.html").read_text()
 
-ASSET_VER = "6"   # bump when style.css or site.js change, to beat caches
+ASSET_VER = "7"   # bump when style.css or site.js change, to beat caches
 
 FONTS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
@@ -312,18 +312,16 @@ def build_gallery(g):
     return shell(g["title"], body, g["desc"])
 
 
-ABOUT = """<main class="page">
-  <div class="page__wash" style="background-image:url('assets/pages/pages-bg.jpg')"></div>
-  <div class="page__body">
+ABOUT = """<main class="about-page">
+  <div class="about-page__portrait" style="background-image:url('assets/pages/about.jpg')"></div>
+  <div class="about-page__body">
     <h1 class="page__title">ABOUT ME</h1>
-    <div class="about">
-      <img class="about__portrait" src="assets/pages/about.jpg" alt="David Bin">
-      <div class="about__text">
-        <p>Hi my name is David and I am a Technical Artist.</p>
-        <p>I work with 2D and 3D software's for Realtime engines like Unity and
-        Unreal to produce emissive content or interactive experience.</p>
-      </div>
-    </div>
+    <p class="about-page__text">Hi my name is David and I am a Technical Artist.</p>
+    <p class="about-page__text">I work with 2D and 3D software's for Realtime engines
+    like Unity and Unreal to produce emissive content or interactive experience.</p>
+    <a class="about-page__cv"
+       href="https://6ecf9047-5770-44af-b7c8-99aaaaf030a5.filesusr.com/ugd/28d79f_c11fb3165442404bbb110c5ff58b774f.pdf"
+       target="_blank" rel="noopener">Download CV</a>
   </div>
 </main>"""
 

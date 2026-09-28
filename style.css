@@ -562,6 +562,62 @@ a{color:inherit;text-decoration:none}
   .page__title{font-size:34px;line-height:42px}
 }
 
+/* ---------- about ---------- */
+/* Measured: a 611px #2f2e2e band with the portrait over it at 4% opacity,
+   18px/33px body text, and a 151x38 outlined CV button at y=578. */
+
+.about-page{
+  position:relative;
+  height:611px;
+  background:#2f2e2e;
+  color:#fff;
+  font-weight:300;
+  overflow:hidden;
+}
+.about-page__portrait{
+  position:absolute;inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:.04;
+  pointer-events:none;
+}
+.about-page__body{
+  position:relative;z-index:1;
+  padding:56px var(--gutter) 0;
+  height:100%;
+}
+.about-page .page__title{color:#fff;margin-top:0}
+
+.about-page__text{
+  font-size:18px;
+  line-height:33px;
+  color:#fff;
+  margin:0;
+  max-width:430px;
+  padding-left:3px;
+}
+.about-page__text:first-of-type{margin-top:41px}
+
+.about-page__cv{
+  position:absolute;
+  left:var(--gutter);
+  top:503px;
+  display:grid;place-items:center;
+  width:151px;height:38px;
+  border:1px solid #fff;
+  color:#fff;
+  font-size:15px;
+  font-weight:700;
+  line-height:21px;
+  transition:background .22s ease,color .22s ease;
+}
+.about-page__cv:hover,.about-page__cv:focus-visible{background:#fff;color:#2f2e2e}
+
+@media (max-width:900px){
+  .about-page{height:auto;padding-bottom:64px}
+  .about-page__cv{position:static;margin-top:48px}
+}
+
 /* ---------- footer ---------- */
 /* Measured: white, 306px tall, columns starting at x=89 / 486 / 960,
    60px of padding above the first row. */
