@@ -47,6 +47,10 @@ Complete and deployed. Eleven pages, all measured against the original:
 `wixstatic.com` or `filesusr.com`. Remaining third parties are only: Vimeo and
 YouTube (embedded videos), Google Fonts, FormSubmit (contact form).
 
+The menu also has a **MOBILE GAMES** item linking out to
+`https://davidbin-private.pages.dev` — a separate, password-gated Cloudflare
+Pages site that is not part of this repo.
+
 Verified at the last commit: all 11 pages and all 80 tracked assets return 200
 live; `build.py` reproduces the committed HTML byte-for-byte.
 
@@ -55,6 +59,8 @@ live; `build.py` reproduces the committed HTML byte-for-byte.
 ## 3. How it is built
 
 No framework, no build toolchain beyond Python 3 and the standard library.
+(`_dims()` reads JPEG headers itself; it used to call macOS `sips`, which broke
+the build on Linux/cloud sessions.)
 
 ```
 build.py        generates all 11 HTML pages — THE source of truth for content

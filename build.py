@@ -2,7 +2,6 @@
 """Builds index.html + the five project pages from the shared partials."""
 import pathlib
 import re
-import subprocess
 
 HERE = pathlib.Path(__file__).parent
 MENU = (HERE / "_menu.html").read_text()
@@ -164,12 +163,24 @@ PROJECTS = [
 
 def _dims(path):
     """Intrinsic size, so lazy images reserve space instead of collapsing to
-    zero height (which stops them ever entering the viewport to load)."""
-    out = subprocess.run(["sips", "-g", "pixelWidth", "-g", "pixelHeight", path],
-                         capture_output=True, text=True).stdout
-    w = re.search(r"pixelWidth:\s*(\d+)", out)
-    h = re.search(r"pixelHeight:\s*(\d+)", out)
-    return (w.group(1), h.group(1)) if w and h else ("", "")
+    zero height (which stops them ever entering the viewport to load).
+    Reads the JPEG header directly, so the build needs only the stdlib."""
+    data = pathlib.Path(path).read_bytes()
+    i = 2
+    while i + 9 < len(data):
+        if data[i] != 0xFF:
+            i += 1
+            continue
+        marker = data[i + 1]
+        if marker in (0xD8, 0x01) or 0xD0 <= marker <= 0xD7 or marker == 0xFF:
+            i += 1 if marker == 0xFF else 2
+            continue
+        if 0xC0 <= marker <= 0xCF and marker not in (0xC4, 0xC8, 0xCC):
+            h = int.from_bytes(data[i + 5:i + 7], "big")
+            w = int.from_bytes(data[i + 7:i + 9], "big")
+            return (str(w), str(h))
+        i += 2 + int.from_bytes(data[i + 2:i + 4], "big")
+    return ("", "")
 
 
 def build_project(p):
